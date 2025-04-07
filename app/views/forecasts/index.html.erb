@@ -1,7 +1,7 @@
-<div>
+<div style="margin: auto 20%; text-align: center;">
   <h1>Welcome to the weather getter</h1>
 
-  <%= form_tag("/forecasts", method: :post) do %>
+  <%= form_tag("/forecasts", method: :get) do %>
     <%= label_tag("Postal Code") %>
     <%= text_field_tag("postal_code") %>
     <%= submit_tag %>
@@ -9,12 +9,45 @@
 
   <% if @forecast %>
     <div>
-      <h1>Weather Forecast</h1>
+      <% if @forecast.cached %>
+        <p>*pulled from cached weather data within the last 30 minutes</p>
+      <% end %>
 
-      <div>
-        <h2>Current Temperature</h2>
-        <p><%= @forecast.current_temp %></p>
-      </div>
+      <% @forecast.future_days.each do |forecast| %>
+        <% if Date.parse(forecast.date) == Date.today %>
+          <h2>Today's forecast</h2>
+
+          <p><strong>Current Temperature</strong>: <%= @forecast.current_temp %></p>
+        <% else %>
+          <h2>Forecast for <%= forecast.date %></h2>
+        <% end %>
+
+        <div style="display: flex; justify-content: space-evenly">
+          <p><strong>Average</strong>: <%= forecast.average_temp %></p>
+
+          <p><strong>High</strong>: <%= forecast.max_temp %></p>
+
+          <p><strong>Low</strong>: <%= forecast.min_temp %></p>
+        </div>
+
+        <div>
+          <p><strong>Hourly Forecast</strong></p>
+          <div style="display: flex; justify-content: center;">
+            <ul style="list-style: none;">
+              <% forecast.hourly_data.first(12).each do |hour| %>
+                <li><%= DateTime.parse(hour[0]).strftime("%I %p") %>
+                  : <%= hour[1] %></li>
+              <% end %>
+            </ul>
+            <ul style="list-style: none;">
+              <% forecast.hourly_data.last(12).each do |hour| %>
+                <li><%= DateTime.parse(hour[0]).strftime("%I %p") %>
+                  : <%= hour[1] %></li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
     </div>
   <% end %>
 </div>

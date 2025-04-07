@@ -12,5 +12,5 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "forecasts#index"
 
-  resources :forecasts, only: %i[index create]
+  resources :forecasts, only: :index
 end
