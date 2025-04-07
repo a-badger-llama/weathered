@@ -1,6 +1,7 @@
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
+require "mocha/minitest"
 
 module ActiveSupport
   class TestCase
@@ -11,5 +12,47 @@ module ActiveSupport
     fixtures :all
 
     # Add more helper methods to be used by all tests here...
+  end
+end
+
+module ForecastTestData
+  attr_accessor :forecast_data, :request_uri
+
+  private
+
+  def request_uri
+    @request_uri ||= URI::HTTPS.build(
+      host:  "api.weatherapi.com",
+      path:  "/v1/forecast.json",
+      query: URI.encode_www_form(
+        key:  ENV["WEATHER_API_KEY"],
+        q:    84009,
+        days: 3,
+        )
+    )
+  end
+
+  def forecast_data
+    @forecast_data ||= {
+      "current"  => {
+        "temp_f" => 51
+      },
+      "forecast" => {
+        "forecastday" => [{
+                            "date" => "2025-04-07",
+                            "day"  => {
+                              "avgtemp_f" => 50,
+                              "maxtemp_f" => 60,
+                              "mintemp_f" => 40
+                            },
+                            "hour" => [
+                              {
+                                "time"   => "2025-04-07 00:00",
+                                "temp_f" => 45
+                              }
+                            ]
+                          }]
+      }
+    }
   end
 end

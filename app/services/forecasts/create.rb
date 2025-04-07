@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "net/https"
 
 module Forecasts
@@ -38,7 +40,6 @@ module Forecasts
           key:  ENV["WEATHER_API_KEY"],
           q:    postal_code,
           days: 3,
-          aqi:  "yes",
         )
       )
     end

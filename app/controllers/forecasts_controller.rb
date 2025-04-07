@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ForecastsController < ApplicationController
   attr_accessor :postal_code
 

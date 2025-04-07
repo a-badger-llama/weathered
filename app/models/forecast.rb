@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Forecast
   attr_accessor :cached, :current, :forecast_data, :future_days
   delegate :current_temp, to: :current
@@ -28,12 +30,12 @@ class Forecast
                   :hourly_data
 
     def initialize(day_data)
-      @day_data    = day_data
-      @date        = day_data["date"]
-      @average_temp   = day_data.dig("day", "avgtemp_f")
-      @max_temp    = day_data.dig("day", "maxtemp_f")
-      @min_temp    = day_data.dig("day", "mintemp_f")
-      @hourly_data ||= get_hourly_data
+      @day_data     = day_data
+      @date         = day_data["date"]
+      @average_temp = day_data.dig("day", "avgtemp_f")
+      @max_temp     = day_data.dig("day", "maxtemp_f")
+      @min_temp     = day_data.dig("day", "mintemp_f")
+      @hourly_data  ||= get_hourly_data
     end
 
     def get_hourly_data
