@@ -20,4 +20,20 @@ class CreateTest < Minitest::Test
     cached_forecast = Forecasts::Create.run(84009)
     assert(cached_forecast.cached)
   end
+
+  def test_weather_api_returns_error
+    Rails.cache.clear
+
+    Net::HTTP.expects(:get)
+             .with(request_uri)
+             .returns(error_response.to_json)
+             .once
+
+    forecast = Forecasts::Create.run(84009)
+    assert_instance_of(Hash, forecast)
+    refute(forecast[:cached])
+
+    cached_forecast = Forecasts::Create.run(84009)
+    assert(cached_forecast[:cached])
+  end
 end

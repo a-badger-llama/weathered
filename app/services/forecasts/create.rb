@@ -23,7 +23,11 @@ module Forecasts
         get_response
       end
 
-      Forecast.new(response, cached: cached)
+      if response.keys.include?("error")
+        { error: response.dig("error", "message"), cached: cached }
+      else
+        Forecast.new(response, cached: cached)
+      end
     end
 
     private

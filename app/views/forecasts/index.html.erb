@@ -7,12 +7,12 @@
     <%= submit_tag %>
   <% end %>
 
-  <% if @forecast %>
-    <div>
-      <% if @forecast.cached %>
-        <p>*pulled from cached weather data within the last 30 minutes</p>
-      <% end %>
+  <% if @cached %>
+    <p>*pulled from cached weather data within the last 30 minutes</p>
+  <% end %>
 
+  <% if @forecast.present? %>
+    <div>
       <% @forecast.future_days.each do |forecast| %>
         <% if Date.parse(forecast.date) == Date.today %>
           <h2>Today's forecast</h2>
@@ -49,5 +49,7 @@
         </div>
       <% end %>
     </div>
+  <% else %>
+    <p><%= @error %></p>
   <% end %>
 </div>

@@ -38,4 +38,23 @@ class ForecastsControllerTest < ActionDispatch::IntegrationTest
 
     assert(response.body.include?("*pulled from cached weather data within the last 30 minutes"))
   end
+
+  def test_api_returns_error
+    Rails.cache.clear
+
+    Net::HTTP.expects(:get)
+             .with(request_uri)
+             .returns(error_response.to_json)
+             .once
+
+    get(
+      forecasts_path,
+      params: {
+        postal_code: 84009
+      }
+    )
+
+    refute(response.body.include?("Today's forecast"))
+    assert(response.body.include?("No matching location found."))
+  end
 end

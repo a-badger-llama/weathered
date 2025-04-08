@@ -16,7 +16,7 @@ module ActiveSupport
 end
 
 module ForecastTestData
-  attr_accessor :forecast_data, :request_uri
+  attr_accessor :error_response, :forecast_data, :request_uri
 
   private
 
@@ -30,6 +30,15 @@ module ForecastTestData
         days: 3,
         )
     )
+  end
+
+  def error_response
+    @error_response ||= {
+      "error" => {
+        "code"    => 1006,
+        "message" => "No matching location found."
+      }
+    }
   end
 
   def forecast_data
