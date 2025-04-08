@@ -1,24 +1,54 @@
-# README
+# Weather Getter 🌤️
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A lightweight Ruby on Rails app that fetches and displays weather forecast data using the [WeatherAPI](https://www.weatherapi.com/).
 
-Things you may want to cover:
+## Features
 
-* Ruby version
+- Accepts a US postal code and fetches the 3-day forecast
+- Displays current, daily, and hourly forecast
+- Caches results for 30 minutes by postal code
+- Shows an indicator when data is served from cache
+- Includes test coverage for controller, service, and model layers
 
-* System dependencies
+## Tech Stack
 
-* Configuration
+- Ruby on Rails
+- Minitest + Mocha for testing
+- WeatherAPI for forecast data
 
-* Database creation
+## Setup Instructions
 
-* Database initialization
+### 1. Clone the repo
+```
+git clone https://github.com/your-username/weathered.git
+cd weathered
+```
 
-* How to run the test suite
+### 2. Install dependencies:
+```
+bundle install
+```
 
-* Services (job queues, cache servers, search engines, etc.)
+### 3. Setup your WeatherAPI key by following their instructions:
+https://www.weatherapi.com/docs/ 
 
-* Deployment instructions
+### 4. Create a .env file in the root:
+(Or set it in your shell environment)
+```
+WEATHER_API_KEY=your_api_key_here
+```
 
-* ...
+Run the server:
+```
+bin/rails server
+```
+
+Open in browser:
+```
+http://localhost:3000
+```
+
+Running Tests
+```
+bin/rails test
+```
